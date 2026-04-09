@@ -9,11 +9,13 @@ export async function POST(req) {
   try {
     const { message, history } = await req.json();
 
-    if (!process.env.HF_TOKEN) {
-      return new Response(JSON.stringify({ error: "Missing Hugging Face API Token (HF_TOKEN)." }), { status: 500 });
+    const token = process.env.HF_TOKEN;
+    
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Missing Hugging Face API Token (HF_TOKEN) on server." }), { status: 500 });
     }
 
-    const client = new InferenceClient(process.env.HF_TOKEN);
+    const client = new InferenceClient(token);
 
     // Format history for HF API
     const formattedHistory = [

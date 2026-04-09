@@ -11,14 +11,16 @@ export async function POST(req) {
       });
     }
 
-    if (!process.env.HF_TOKEN) {
-      return new Response(JSON.stringify({ error: "Hugging Face API token is missing" }), {
+    const token = process.env.HF_TOKEN;
+
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Hugging Face API token is missing on server" }), {
         status: 500,
         headers: { "Content-Type": "application/json" }
       });
     }
 
-    const client = new InferenceClient(process.env.HF_TOKEN);
+    const client = new InferenceClient(token);
 
     const PROMPT = `You are a Principal Enterprise Architect at SynTech Consulting.
     The user is looking for a tailored AI & Digital Transformation strategy.

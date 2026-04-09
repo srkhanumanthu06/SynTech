@@ -16,8 +16,10 @@ export async function POST(req) {
     const file = formData.get("resumeFile");
     const roleTarget = formData.get("roleTarget");
 
-    if (!process.env.HF_TOKEN) {
-      return new Response(JSON.stringify({ error: "Missing Hugging Face API Token (HF_TOKEN)." }), { status: 500 });
+    const token = process.env.HF_TOKEN;
+
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Missing Hugging Face API Token (HF_TOKEN) on server." }), { status: 500 });
     }
     
     if (!file || !roleTarget) {
