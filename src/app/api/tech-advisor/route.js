@@ -63,7 +63,10 @@ export async function POST(req) {
     });
   } catch (error) {
     console.error("TechAdvisor API Error:", error);
-    return new Response(JSON.stringify({ error: "Failed to generate tech stack. Make sure HF_TOKEN and model are valid." }), { status: 500 });
+    return new Response(JSON.stringify({ 
+      error: error.message || "Failed to generate tech stack.",
+      hint: "Check HF_TOKEN validity and model status."
+    }), { status: 500 });
   }
 }
 

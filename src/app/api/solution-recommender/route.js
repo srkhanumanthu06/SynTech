@@ -78,7 +78,10 @@ export async function POST(req) {
 
   } catch (error) {
     console.error("AI Recommender Error:", error);
-    return new Response(JSON.stringify({ error: "Failed to generate solution recommendations. Please check API Key or try again." }), {
+    return new Response(JSON.stringify({ 
+      error: error.message || "Failed to generate recommendations.",
+      hint: "Check HF_TOKEN configuration."
+    }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
     });

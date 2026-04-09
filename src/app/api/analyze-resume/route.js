@@ -108,7 +108,10 @@ export async function POST(req) {
 
   } catch (error) {
     console.error("Analysis API Error:", error);
-    return new Response(JSON.stringify({ error: "Failed to analyze resume. Make sure HF_TOKEN and model are valid." }), { status: 500 });
+    return new Response(JSON.stringify({ 
+      error: error.message || "Failed to analyze resume.",
+      hint: "Check HF_TOKEN validity and PDF format."
+    }), { status: 500 });
   }
 }
 
